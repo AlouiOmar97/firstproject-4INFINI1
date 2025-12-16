@@ -4,5 +4,6 @@ export interface Suggestion {
     description : string,
     category : string,
     date : Date | string,
-    status : string
+    status : string,
+    nbLikes?: number,
 }

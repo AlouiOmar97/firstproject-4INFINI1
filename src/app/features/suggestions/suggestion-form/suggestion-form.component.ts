@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Suggestion } from '../../../models/suggestion';
 import { title } from 'process';
 import { Router } from '@angular/router';
+import { LogService } from '../../../services/log.service';
+import { SuggestionService } from '../../../services/suggestion.service';
 
 @Component({
   selector: 'app-suggestion-form',
@@ -17,7 +19,8 @@ export class SuggestionFormComponent {
   description: '',
   category: '',
   date: this.getTodayDate(),
-  status: 'en_attente'
+  status: 'en_attente',
+  nbLikes: 0
  };
 
  getTodayDate() {
@@ -38,7 +41,7 @@ export class SuggestionFormComponent {
   'Autre'
   ];
 
- constructor(private router: Router) { }
+ constructor(private router: Router, private logService: LogService, private suggestionService: SuggestionService) { }
 
  ngOnInit(): void {
   this.addSuggestionForm = new FormGroup({
@@ -48,7 +51,8 @@ export class SuggestionFormComponent {
     /*date: new FormControl({value: this.suggestion.date, disabled: true}),
     status: new FormControl({value: this.suggestion.status, disabled: true})*/
     date: new FormControl(this.suggestion.date),
-    status: new FormControl(this.suggestion.status)
+    status: new FormControl(this.suggestion.status),
+    nbLikes: new FormControl(this.suggestion.nbLikes)
   });
  }
 
@@ -59,8 +63,16 @@ export class SuggestionFormComponent {
   get status(){ return this.addSuggestionForm.get('status');  }
 
   submitSuggestion(){
-    console.log(this.addSuggestionForm.value);
+    //console.log(this.addSuggestionForm.value);
+    this.logService.log(this.addSuggestionForm.value);
+    this.logService.warn(this.addSuggestionForm.value);
+    this.logService.error(this.addSuggestionForm.value);
+    this.suggestionService.addSuggestion(this.addSuggestionForm.value).subscribe(
+      ()=>{
+        this.router.navigateByUrl('/suggestions');
+
+      }
+    );
     //this.router.navigate(['/suggestions']);
-    this.router.navigateByUrl('/suggestions');
   }
 }

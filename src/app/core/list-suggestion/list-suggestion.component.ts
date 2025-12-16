@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Suggestion } from '../../models/suggestion';
+import { SuggestionService } from '../../services/suggestion.service';
 
 @Component({
   selector: 'app-list-suggestion',
@@ -48,4 +49,13 @@ export class ListSuggestionComponent {
  date: new Date('2025-02-05'),
  status: 'acceptee'
  }];
+  constructor(private suggestionService: SuggestionService) { }
+
+  ngOnInit(): void {
+    this.suggestionService.getSuggestions().subscribe(
+      (data)=>{
+        this.suggestions = data as Suggestion[];
+      }
+    )
+  }
 }

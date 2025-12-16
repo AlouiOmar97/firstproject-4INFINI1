@@ -9,6 +9,8 @@ import { ListSuggestionComponent } from './core/list-suggestion/list-suggestion.
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SuggestionFormComponent } from './features/suggestions/suggestion-form/suggestion-form.component';
+import { HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { SuggestionDetailsComponent } from './suggestion-details/suggestion-details.component';
 
 @NgModule({
   declarations: [
@@ -18,15 +20,17 @@ import { SuggestionFormComponent } from './features/suggestions/suggestion-form/
     ListSuggestionComponent,
     HomeComponent,
     NotFoundComponent,
-    SuggestionFormComponent
+    SuggestionFormComponent,
+    SuggestionDetailsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
 ],
   providers: [
+    provideHttpClient(),
     provideClientHydration()
   ],
   bootstrap: [AppComponent]
